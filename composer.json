@@ -1,0 +1,31 @@
+{
+    "name": "xqkeji/fast-admin",
+    "description": "一个基于新齐低代码开发框架的后台管理系统，包括系统管理、广告管理、内容管理、会员管理等模块。",
+    "type": "project",
+    "license": "SSPL-1.0",
+    "autoload": {
+        "psr-4": {
+            "xqkeji\\app\\": "app/"
+        }
+    },
+    "authors": [
+        {
+            "name": "xqkeji.cn"
+        }
+    ],
+    "scripts": {
+        "post-root-package-install": "xqkeji\\app\\Project::postInstall"
+    },
+    "require": {
+        "xqkeji/composer": "^1.0",
+        "xqkeji/xq-app-admin": "^1.0",
+        "xqkeji/xq-app-advert": "^1.0",
+        "xqkeji/xq-app-content": "^1.0",
+        "xqkeji/xq-app-member": "^1.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "xqkeji/composer": true
+        }
+    }
+}
