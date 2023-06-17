@@ -4,6 +4,23 @@ use xqkeji\helper\Str;
 
 class Project
 {
+    public static function random(int $length=24):string
+    {
+        $text='';
+        $pool = array_merge(
+            range(0, 9),
+            range("a", "z"),
+            range("A", "Z")
+        );
+        $end = count($pool) - 1;
+
+        while(strlen($text) < $length) 
+        {
+            $text .= $pool[mt_rand(0, $end)];
+        }
+
+        return $text;
+    }
     public static function getRootPath():string
     {
         return dirname(__DIR__,2);
@@ -41,7 +58,7 @@ class Project
                 {
                     $password='';
                 }
-                $key=Str::random(Str::RANDOM_ALNUM,24);
+                $key=self::random();
                 $config=[
                     'db'  => [
                         "hostname"		=>	$hostname,
