@@ -1,6 +1,6 @@
 <?php
 namespace xqkeji\app\composer;
-use xqkeji\helper\Str;
+use MongoDB\Driver\Manager;
 
 class Project
 {
@@ -73,7 +73,7 @@ class Project
                     {
                         $uri='mongodb://'.$hostname.':'.$hostport;
                     }
-                    $manager = new MongoDB\Driver\Manager($uri);
+                    $manager = new Manager($uri);
                     if(is_object($manager))
                     {
                         break;
