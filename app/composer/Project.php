@@ -1,7 +1,7 @@
 <?php
 namespace xqkeji\app\composer;
 use MongoDB\Driver\Manager;
-
+use MongoDB\Driver\Command;
 class Project
 {
     public static function random(int $length=24):string
@@ -40,10 +40,10 @@ class Project
             {
                 while(true)
                 {
-                    $hostname = readline("请输入数据库服务器地址[默认为：172.172.172.100]\r\n");
+                    $hostname = readline("请输入数据库服务器地址[默认为：localhost]\r\n");
                     if(trim($hostname)=='')
                     {
-                        $hostname='172.172.172.100';
+                        $hostname='localhost';
                     }
                     $hostport = readline("请输入数据库服务器的端口号[默认为：27017]\r\n");
                     if(trim($hostport)=='')
@@ -73,13 +73,12 @@ class Project
                     {
                         $uri='mongodb://'.$hostname.':'.$hostport;
                     }
-                    $manager = new Manager($uri);
-                    if(is_object($manager))
-                    {
-                        break;
-                    }
-                    else
-                    {
+                    $manager = new Manager($uri,['serverSelectionTryOnce'=>false,'serverSelectionTimeoutMS'=>500,'connectTimeoutMS'=>500]);
+                    $command = new Command(['ping' => 1]);
+                    try {
+                        $manager->executeCommand($database, $command);
+                        break;   
+                    } catch(\Exception $e) {
                         echo "数据库链接信息无法连接数据库，请重新设置！\r\n";
                     }
                 }
