@@ -40,32 +40,27 @@ class Project
             {
                 while(true)
                 {
-                    $hostname = readline("请输入数据库服务器地址[默认为：172.172.172.100]");
-                    readline_on_new_line();
+                    $hostname = readline("请输入数据库服务器地址[默认为：172.172.172.100]\r\n");
                     if(trim($hostname)=='')
                     {
                         $hostname='172.172.172.100';
                     }
-                    $hostport = readline("请输入数据库服务器的端口号[默认为：27017]");
-                    readline_on_new_line();
+                    $hostport = readline("请输入数据库服务器的端口号[默认为：27017]\r\n");
                     if(trim($hostport)=='')
                     {
                         $hostport='27017';
                     }
-                    $database = readline("请输入数据库名称[默认为：xqkeji_db]");
-                    readline_on_new_line();
+                    $database = readline("请输入数据库名称[默认为：xqkeji_db]\r\n");
                     if(trim($database)=='')
                     {
                         $database='xqkeji_db';
                     }
-                    $username = readline("请输入数据库用户名[默认为：空]");
-                    readline_on_new_line();
+                    $username = readline("请输入数据库用户名[默认为：空]\r\n");
                     if(trim($username)=='')
                     {
                         $username='';
                     }
-                    $password = readline("请输入数据库密码[默认为：空]");
-                    readline_on_new_line();
+                    $password = readline("请输入数据库密码[默认为：空]\r\n");
                     if(trim($password)=='')
                     {
                         $password='';
