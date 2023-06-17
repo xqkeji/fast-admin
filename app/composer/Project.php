@@ -38,26 +38,58 @@ class Project
             //文件不存在，则创建
             if(!is_file($containerFile))
             {
-                $hostname = readline("请输入数据库服务器地址[默认为：172.172.172.100]\n");
-                if(trim($hostname)=='')
+                while(true)
                 {
-                    $hostname='172.172.172.100';
+                    $hostname = readline("请输入数据库服务器地址[默认为：172.172.172.100]");
+                    readline_on_new_line();
+                    if(trim($hostname)=='')
+                    {
+                        $hostname='172.172.172.100';
+                    }
+                    $hostport = readline("请输入数据库服务器的端口号[默认为：27017]");
+                    readline_on_new_line();
+                    if(trim($hostport)=='')
+                    {
+                        $hostport='27017';
+                    }
+                    $database = readline("请输入数据库名称[默认为：xqkeji_db]");
+                    readline_on_new_line();
+                    if(trim($database)=='')
+                    {
+                        $database='xqkeji_db';
+                    }
+                    $username = readline("请输入数据库用户名[默认为：空]");
+                    readline_on_new_line();
+                    if(trim($username)=='')
+                    {
+                        $username='';
+                    }
+                    $password = readline("请输入数据库密码[默认为：空]");
+                    readline_on_new_line();
+                    if(trim($password)=='')
+                    {
+                        $password='';
+                    }
+                    if(!empty($username))
+                    {
+                        $uri='mongodb://'.$username.':'.$password.'@'.$hostname.':'.$hostport;
+                    }
+                    else
+                    {
+                        $uri='mongodb://'.$hostname.':'.$hostport;
+                    }
+                    $manager = new MongoDB\Driver\Manager($uri);
+                    if(is_object($manager))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        echo "数据库链接信息无法连接数据库，请重新设置！\r\n";
+                    }
                 }
-                $database = readline("请输入数据库名称[默认为：xqkeji_db]\n");
-                if(trim($database)=='')
-                {
-                    $database='xqkeji_db';
-                }
-                $username = readline("请输入数据库用户名[默认为：空]\n");
-                if(trim($username)=='')
-                {
-                    $username='';
-                }
-                $password = readline("请输入数据库密码[默认为：空]\n");
-                if(trim($password)=='')
-                {
-                    $password='';
-                }
+                
+
                 $key=self::random();
                 $config=[
                     'db'  => [
