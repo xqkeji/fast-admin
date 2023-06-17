@@ -14,18 +14,6 @@
         }
     ],
     "scripts": {
-        "post-root-package-install": "xqkeji\\app\\Project::postInstall"
-    },
-    "require": {
-        "xqkeji/composer": "^1.0",
-        "xqkeji/xq-app-admin": "^1.0",
-        "xqkeji/xq-app-advert": "^1.0",
-        "xqkeji/xq-app-content": "^1.0",
-        "xqkeji/xq-app-member": "^1.0"
-    },
-    "config": {
-        "allow-plugins": {
-            "xqkeji/composer": true
-        }
+        "post-root-package-install": "xqkeji\\app\\composer\\Project::postInstall"
     }
 }
