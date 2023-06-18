@@ -83,7 +83,7 @@ class Install
                         echo "数据库链接信息无法连接数据库，请重新设置！\r\n";
                     }
                 }
-                
+                echo "数据库链接信息检测成功！\r\n";
 
                 $key=self::random();
                 $config=[
