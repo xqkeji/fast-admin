@@ -88,10 +88,11 @@ class Install
                 $key=self::random();
                 $config=[
                     'db'  => [
-                        "hostname"		=>	$hostname,
-                        "database"		=>	$database,
-                        "username" 		=> $username,
-                        "password"      => $password,
+                        'hostname'		=> $hostname,
+                        'hostport'		=> $hostport,
+                        'database'		=> $database,
+                        'username' 		=> $username,
+                        'password'      => $password,
                     ],
                     'crypt'     =>[
                         'key'=>$key,
