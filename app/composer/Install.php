@@ -2,7 +2,7 @@
 namespace xqkeji\app\composer;
 use MongoDB\Driver\Manager;
 use MongoDB\Driver\Command;
-class Project
+class Install
 {
     public static function random(int $length=24):string
     {

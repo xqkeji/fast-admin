@@ -14,7 +14,7 @@
         }
     ],
     "scripts": {
-        "post-root-package-install": "xqkeji\\app\\composer\\Project::postInstall"
+        "post-root-package-install": "xqkeji\\app\\composer\\Install::postInstall"
     },
     "require": {
         "xqkeji/composer": "^1.0",
