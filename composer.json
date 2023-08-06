@@ -14,8 +14,10 @@
         }
     ],
     "scripts": {
-        "post-create-project-cmd":"composer require xqkeji/composer",
-        "post-root-package-install": "xqkeji\\composer\\Container::postInstall"
+        "post-root-package-install":[ 
+            "composer require xqkeji/composer",
+            "xqkeji\\composer\\Container::postInstall"
+        ]
     },
     "require": {
         "xqkeji/composer": "^1.0",
