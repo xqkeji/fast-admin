@@ -4,9 +4,9 @@
     "type": "project",
     "license": "SSPL-1.0",
     "autoload": {
-        "files": [
-            "vendor/xqkeji/composer/src/Container.php"
-        ]
+        "psr-4": {
+            "xqkeji\\composer\\": "vendor/xqkeji/composer/src/"
+        }
     },
     "authors": [
         {
@@ -14,12 +14,13 @@
         }
     ],
     "scripts": {
-        "post-create-project-cmd":[ 
+        "post-create-project-cmd": [
             "composer require xqkeji/composer",
-            "composer install",
+            "@php -r \"include_once('vendor/xqkeji/composer/src/Container.php');\"",
             "xqkeji\\composer\\Container::postInstall",
             "composer require xqkeji/xq-app-admin"
         ]
+        
     },
     "require": {
     },
