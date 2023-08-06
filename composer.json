@@ -16,6 +16,7 @@
     "scripts": {
         "post-create-project-cmd":[ 
             "composer require xqkeji/composer",
+            "composer install",
             "xqkeji\\composer\\Container::postInstall",
             "composer require xqkeji/xq-app-admin"
         ]
