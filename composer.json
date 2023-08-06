@@ -13,8 +13,7 @@
     "scripts": {
         "post-create-project-cmd": [
             "composer require xqkeji/composer",
-            "@php -r \"include_once('./vendor/xqkeji/composer/src/PathTrait.php');\"",
-            "@php -r \"include_once('./vendor/xqkeji/composer/src/Container.php');\"",
+            "@php -r \"include_once('./vendor/xqkeji/composer/src/PathTrait.php');include_once('./vendor/xqkeji/composer/src/Container.php');\"",
             "xqkeji\\composer\\Container::postInstall",
             "composer require xqkeji/xq-app-admin"
         ]
