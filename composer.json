@@ -14,15 +14,13 @@
         }
     ],
     "scripts": {
-        "post-root-package-install":[ 
-            "composer require xqkeji/composer --no-update",
-            "php vendor/xqkeji/composer/src/Container.php",
-            "xqkeji\\composer\\Container::postInstall"
+        "post-create-project-cmd":[ 
+            "composer require xqkeji/composer",
+            "xqkeji\\composer\\Container::postInstall",
+            "composer require xqkeji/xq-app-admin"
         ]
     },
     "require": {
-        "xqkeji/composer": "^1.0",
-        "xqkeji/xq-app-admin": "^1.0"
     },
     "config": {
         "allow-plugins": {
