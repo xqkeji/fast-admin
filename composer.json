@@ -16,6 +16,7 @@
     "scripts": {
         "post-root-package-install":[ 
             "composer require xqkeji/composer --no-update",
+            "php vendor/xqkeji/composer/src/Container.php",
             "xqkeji\\composer\\Container::postInstall"
         ]
     },
