@@ -15,7 +15,7 @@
     ],
     "scripts": {
         "post-root-package-install":[ 
-            "composer require xqkeji/composer",
+            "composer require xqkeji/composer --no-update",
             "xqkeji\\composer\\Container::postInstall"
         ]
     },
