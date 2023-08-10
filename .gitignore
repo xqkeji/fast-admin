@@ -4,11 +4,11 @@
 /config/loader.php
 /resource/**
 /vendor/**
-/runtime/**
+/runtime/sesseion/**
 /www/assets/**
 /www/upload/**
 !/www/assets/.gitkeep
 !/www/upload/.gitkeep
-!/runtime/session/.gitkeep
 !/resource/.gitkeep
 !/vendor/.gitkeep
+!/runtime/session/.gitkeep
