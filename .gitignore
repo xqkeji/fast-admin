@@ -9,6 +9,6 @@
 /www/upload/**
 !/www/assets/.gitkeep
 !/www/upload/.gitkeep
-!/runtime/.gitkeep
+!/runtime/session/.gitkeep
 !/resource/.gitkeep
 !/vendor/.gitkeep
