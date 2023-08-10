@@ -39,5 +39,5 @@ tar -xzvf docker.tar.gz
 rm docker.tar.gz
 cd docker
 chmod +x install.sh
-./install.sh
+sudo ./install.sh
 ```
