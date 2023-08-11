@@ -8,5 +8,8 @@ return [
 		'method'=>'',//请求方法
 	],
 	*/
-	
+	'default'=>[
+		'rule'=>'/',		
+		'handler'=>'admin\user@index',
+	],
 ];
