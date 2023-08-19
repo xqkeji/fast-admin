@@ -12,6 +12,8 @@ return [
     'crm customer_type edit failed'=>'编辑客户类别失败',
     'crm customer_type delete success'=>'删除客户类别成功',
     'crm customer_type delete failed'=>'删除客户类别失败',
+    'crm customer_type b_delete success'=>'批量删除客户类别成功',
+    'crm customer_type b_delete failed'=>'批量删除客户类别失败',
     //类别权限
     'crm module customer_type auth'=>'客户类别管理',
     'crm module customer_type admin auth'=>'客户类别列表',
