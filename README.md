@@ -5,6 +5,10 @@
 该项目需要新齐低代码开发框架(xqkeji)的运行环境，目前只提供docker方式的运行环境。
 
 在window系统中，可以运行在wsl(window系统的Linux子系统)环境下。
+### 检查CPU是否开启虚拟化技术
+在Window打开“任务管理器”，然后点击“性能选项卡”，再点击进入“CPU”详细页。
+在CPU的信息中，有显示“虚拟化：已启用”说明CPU有开启虚拟化技术。
+如果没有开启，需要重启电脑进入主板的BIOS管理程序，启用CPU的虚拟机技术。
 
 ### 检查WSL
 win10系统高于2004版本的，默认已经支持WSL。
@@ -32,15 +36,26 @@ wsl -d ubuntu
 ```
 ### 安装xqkeji运行环境
 进入"ubuntu"应用后，执行以下命令： 
+
 **【注意：执行完命令后，会在当前目录创建docker目录，并作为xqkeji的运行目录，因此执行前要确定好当前的目录】**
+
+当前的目录一般用window的盘符，例如：/mnt/d/为D盘，/mnt/e/为E盘。
+
+可以使用cd /mnt/d/ 命令让当前目录为window的D盘。
+
+使用window的盘符路径可以使得linux子系统的文件与Window共享，方便开发。
+
 ``` shell
+cd /mnt/d/
 curl -O https://www.xqkeji.cn/docker.tar.gz
 tar -xzvf docker.tar.gz
 rm docker.tar.gz
 cd docker
+chmod -R a+w log
 chmod +x install.sh
 sudo ./install.sh
 ```
+
 ## 创建项目
 通过以下命令进入xqkeji容器
 ``` shell
@@ -60,6 +75,12 @@ cd app1
 composer require xqkeji/xq-app-content
 ```
 执行后将安装内容管理模块。
+
+完成程序模块安装后，执行命令：
+``` shell
+exit
+```
+退出xqkeji容器，回到linux子系统。
 
 ## 在nginx配置一个虚拟机
 ### 1、添加一个本地的域名解析
