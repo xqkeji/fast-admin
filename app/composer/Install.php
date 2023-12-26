@@ -75,7 +75,7 @@ class Install
                         $uri='mongodb://'.$hostname.':'.$hostport;
                     }
                     $manager = new Manager($uri,['serverSelectionTryOnce'=>false,'serverSelectionTimeoutMS'=>500,'connectTimeoutMS'=>500]);
-                    $command = new Command(['ping' => 1]);
+                    $command = new Command(['listCollections' => 1]);
                     try {
                         echo "正在检测数据库链接信息......\r\n";
                         $manager->executeCommand($database, $command);

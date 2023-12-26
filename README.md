@@ -10,8 +10,10 @@
 在CPU的信息中，有显示“虚拟化：已启用”说明CPU有开启虚拟化技术。
 如果没有开启，需要重启电脑进入主板的BIOS管理程序，启用CPU的虚拟机技术。
 
+### 开启WSL功能
+右键任务栏的“开始”图标，进入“系统信息”选项页，回退到“系统”页，再点击进入“可选功能”页，然后滚动到页面底部，见到“相关设置”后，点击“更多Window功能”。
+点击开启“适用于Linux的Windows子系统”选项和“虚拟机平台”再点击“确定”，系统重启后，就开启了WSL的功能。
 ### 检查WSL
-win10系统高于2004版本的，默认已经支持WSL。
 为了避免不必要的错误，建议使用前先升级wsl,打开一个命令行窗口，并输入命令：
 ``` shell
 wsl --update
@@ -34,6 +36,7 @@ wsl --set-default-version 2
 ``` shell
 wsl -d ubuntu
 ```
+也可以在“开始”的“应用列表”直接点击“Ubuntu”图标来进入“ubuntu"。
 ### 安装xqkeji运行环境
 进入"ubuntu"应用后，执行以下命令： 
 
@@ -105,7 +108,7 @@ server {
 	}
 	location ~ \.php(.*)$  {
 		try_files		$uri = 404;
-		fastcgi_pass   172.0.0.10:9000;
+		fastcgi_pass   172.0.0.10:9000; #php-fpm的服务地址
 		fastcgi_index  index.php;
 		fastcgi_split_path_info  ^((?U).+\.php)(/?.+)$;
 		fastcgi_param  SCRIPT_FILENAME  $document_root$fastcgi_script_name;
