@@ -78,6 +78,7 @@ class Install
                     $command = new Command(['listCollections' => 1]);
                     try {
                         echo "正在检测数据库链接信息......\r\n";
+                        //能够正常读取数据库内的所有集合说明除了能正常连接还具备相应的权限（这里不表示拥有所有权限）
                         $manager->executeCommand($database, $command);
                         break;   
                     } catch(\Exception $e) {
