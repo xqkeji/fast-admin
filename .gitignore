@@ -4,7 +4,7 @@
 /config/loader.php
 /resource/**
 /vendor/**
-/runtime/sesseion/**
+/runtime/session/**
 /www/assets/**
 /www/upload/**
 !/www/assets/.gitkeep
