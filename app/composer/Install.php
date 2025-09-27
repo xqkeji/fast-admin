@@ -41,10 +41,10 @@ class Install
             {
                 while(true)
                 {
-                    $hostname = readline("请输入数据库服务器地址[默认为：172.0.0.100]\r\n");
+                    $hostname = readline("请输入数据库服务器地址[默认为：localhost]\r\n");
                     if(trim($hostname)=='')
                     {
-                        $hostname='172.0.0.100';
+                        $hostname='localhost';
                     }
                     $hostport = readline("请输入数据库服务器的端口号[默认为：27017]\r\n");
                     if(trim($hostport)=='')
@@ -56,15 +56,15 @@ class Install
                     {
                         $database=$dirname.'_db';
                     }
-                    $username = readline("请输入数据库用户名[默认为：空]\r\n");
+                    $username = readline("请输入数据库用户名[默认为：root]\r\n");
                     if(trim($username)=='')
                     {
-                        $username='';
+                        $username='root';
                     }
-                    $password = readline("请输入数据库密码[默认为：空]\r\n");
+                    $password = readline("请输入数据库密码[默认为：xqkeji.cn]\r\n");
                     if(trim($password)=='')
                     {
-                        $password='';
+                        $password='xqkeji.cn';
                     }
                     if(!empty($username))
                     {
