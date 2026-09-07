@@ -118,5 +118,10 @@ class Install
         chmod($upload_path,0777);
         chmod($assets_path,0777);
     }
-    
+    public static function postCreate() : void
+    {
+		\xqkeji\App::bootstrap(self::getRootPath() . DIRECTORY_SEPARATOR);
+        \xqkeji\App::getAssets()->outputAll();
+        echo "初始化管理后台js、css成功！\r\n";
+	}
 }

@@ -12,3 +12,4 @@
 !/resource/.gitkeep
 !/vendor/.gitkeep
 !/runtime/session/.gitkeep
+/.workbuddy/memory
