@@ -124,3 +124,9 @@ sudo docker restart nginx
 ```
 重启后，就可以通过浏览器输入地址：http://app1.xqkeji.cn/admin就可以访问到该管理后台了。
 同时http://app1.xqkeji.cn/默认访问管理后台的主页面，如果要修改或取消该路由，请修改app/example/config/router.php的路由配置。
+
+## 许可协议
+
+本项目基于 [Apache-2.0](http://www.apache.org/licenses/LICENSE-2.0) 开源协议发布。
+
+> **提示：** 本项目运行所依赖的 `php-xqkeji`（新齐低代码开发框架的 PHP 扩展）为**闭源程序**，不在 Apache-2.0 授权范围内，使用它须遵循该扩展自身的许可条款。

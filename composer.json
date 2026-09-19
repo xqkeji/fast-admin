@@ -2,7 +2,7 @@
     "name": "xqkeji/fast-admin",
     "description": "一个基于新齐低代码开发框架的后台管理系统，包含xq-app-admin后台管理模块，并可根据需要安装其他后台管理模块。",
     "type": "project",
-    "license": "SSPL-1.0",
+    "license": "Apache-2.0",
     "autoload": {
         "psr-4": {
             "xqkeji\\app\\composer\\": "app/composer/"
