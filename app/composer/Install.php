@@ -112,7 +112,8 @@ class Install
         $runtime_path=$root_path.DIRECTORY_SEPARATOR.'runtime';
         $session_path=$runtime_path.DIRECTORY_SEPARATOR.'session';
         $upload_path=$root_path.DIRECTORY_SEPARATOR.'www'.DIRECTORY_SEPARATOR.'upload';
-        $assets_path=$root_path.DIRECTORY_SEPARATOR.'www'.DIRECTORY_SEPARATOR.'assets';
+        $assets_path=$root_path.DIRECTORY_SEPARATOR.'www'.DIRECTORY_SEPARATOR.'asset';
+        \xqkeji\composer\Asset::createDir($assets_path,0777);
         chmod($runtime_path,0777);
         chmod($session_path,0777);
         chmod($upload_path,0777);
