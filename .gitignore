@@ -5,9 +5,9 @@
 /resource/**
 /vendor/**
 /runtime/session/**
-/www/assets/**
+/www/asset/**
 /www/upload/**
-!/www/assets/.gitkeep
+!/www/asset/.gitkeep
 !/www/upload/.gitkeep
 !/resource/.gitkeep
 !/vendor/.gitkeep
