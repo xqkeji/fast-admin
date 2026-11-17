@@ -118,7 +118,7 @@ class Install
         chmod($upload_path,0777);
         chmod($assets_path,0777);
     }
-    //站点登记脚本由环境仓库提供（wnmmp\bin\add-site.bat、dnmmp 的 win.bat / add-site.sh），
+    //站点登记脚本由环境仓库提供（wnmmp\bin\add-site.bat、dnmmp 的 win.bat / bin/add-site.sh），
     //项目本身不带；找不到就只提示，不影响 create-project。脚本自身保证幂等。
     public static function postCreate() : void
     {
@@ -131,9 +131,11 @@ class Install
         }
         $windows=DIRECTORY_SEPARATOR==='\\';
         $dir=$root;
-        for($i=0;$i<4;$i++)
+        //逐级向上直到文件系统根，用最近的那个环境：项目一般建在 www/ 或 www/default/ 下，
+        //写死层数会漏掉更深的目录。
+        while(($parent=dirname($dir))!==$dir)
         {
-            $dir=dirname($dir);
+            $dir=$parent;
             if($windows)
             {
                 $scripts=[
@@ -143,7 +145,7 @@ class Install
             }
             else
             {
-                $scripts=[[$dir.'/add-site.sh',[$name,$root]]];
+                $scripts=[[$dir.'/bin/add-site.sh',[$name,$root]]];
             }
             foreach($scripts as $script)
             {
@@ -156,7 +158,7 @@ class Install
             }
         }
         echo "未找到环境侧的站点登记脚本，跳过 nginx 配置与 hosts 登记。\r\n";
-        echo "若项目是在容器里创建的，请在宿主机上执行：wnmmp 用 bin\\add-site.bat $name \"项目目录\"，dnmmp 用 win.bat site $name \"项目目录\" 或 ./add-site.sh $name \"项目目录\"。\r\n";
+        echo "若项目是在容器里创建的，请在宿主机上执行：wnmmp 用 bin\\add-site.bat $name \"项目目录\"，dnmmp 用 win.bat site $name \"项目目录\" 或 ./bin/add-site.sh $name \"项目目录\"。\r\n";
     }
     private static function runAddSite(string $script,array $args,bool $windows):void
     {

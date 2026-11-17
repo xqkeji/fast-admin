@@ -107,7 +107,7 @@ exit
 
 ### 自动登记（dnmmp / wnmmp）
 
-`composer create-project` 结束时会自动登记本地站点：从项目目录向上最多找 4 级环境目录，找到 wnmmp 的 `bin\add-site.bat`、dnmmp 的 `win.bat`（Windows）或 `add-site.sh`（Linux / macOS）就执行，由环境脚本完成三件事：
+`composer create-project` 结束时会自动登记本地站点：从项目目录逐级向上找环境根目录（`www/`、`www/default/` 或更深的子目录都能找到），命中 wnmmp 的 `bin\add-site.bat`、dnmmp 的 `win.bat`（Windows）或 `bin/add-site.sh`（Linux / macOS）就执行，由环境脚本完成三件事：
 
 1. 生成 `etc/nginx/conf.d/<项目名>.conf`：443 ssl、`server_name <项目名>.xqkeji.dev`、root 指向项目的 `www` 目录、PHP 转发按环境写好（dnmmp 为 `172.0.0.10:9000`，wnmmp 为 `php_processes`），并带上 `asset/`、`upload/` 目录禁止执行 PHP 的规则。
 2. 在宿主机 hosts 追加 `127.0.0.1 <项目名>.xqkeji.dev`。Windows 写 hosts 需要管理员权限，脚本会自动弹一次 UAC。
@@ -119,7 +119,7 @@ exit
 
 ``` shell
 # dnmmp（Linux / macOS）
-./add-site.sh app1 "/path/to/dnmmp/www/app1"
+./bin/add-site.sh app1 "/path/to/dnmmp/www/app1"
 # dnmmp（Windows）
 win.bat site app1 "D:\dnmmp\www\app1"
 # wnmmp（Windows）
