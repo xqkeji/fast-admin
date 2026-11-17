@@ -118,8 +118,74 @@ class Install
         chmod($upload_path,0777);
         chmod($assets_path,0777);
     }
+    //站点登记脚本由环境仓库提供（wnmmp\bin\add-site.bat、dnmmp 的 win.bat / add-site.sh），
+    //项目本身不带；找不到就只提示，不影响 create-project。脚本自身保证幂等。
     public static function postCreate() : void
     {
-		
-	}
+        $root=self::getRootPath();
+        $name=basename($root);
+        if(!preg_match('/^[A-Za-z0-9][A-Za-z0-9-]*$/',$name))
+        {
+            echo "目录名 \"$name\" 不能用作本地域名，跳过站点登记。\r\n";
+            return;
+        }
+        $windows=DIRECTORY_SEPARATOR==='\\';
+        $dir=$root;
+        for($i=0;$i<4;$i++)
+        {
+            $dir=dirname($dir);
+            if($windows)
+            {
+                $scripts=[
+                    [$dir.'\\bin\\add-site.bat',[$name,$root]],
+                    [$dir.'\\win.bat',['site',$name,$root]],
+                ];
+            }
+            else
+            {
+                $scripts=[[$dir.'/add-site.sh',[$name,$root]]];
+            }
+            foreach($scripts as $script)
+            {
+                if(is_file($script[0]))
+                {
+                    echo "正在登记本地站点 $name.xqkeji.dev ...\r\n";
+                    self::runAddSite($script[0],$script[1],$windows);
+                    return;
+                }
+            }
+        }
+        echo "未找到环境侧的站点登记脚本，跳过 nginx 配置与 hosts 登记。\r\n";
+        echo "若项目是在容器里创建的，请在宿主机上执行：wnmmp 用 bin\\add-site.bat $name \"项目目录\"，dnmmp 用 win.bat site $name \"项目目录\" 或 ./add-site.sh $name \"项目目录\"。\r\n";
+    }
+    private static function runAddSite(string $script,array $args,bool $windows):void
+    {
+        if($windows)
+        {
+            $cmd='"'.$script.'"';
+            foreach($args as $arg)
+            {
+                $cmd.=' "'.$arg.'"';
+            }
+            $cmd='cmd /c "'.$cmd.'"';
+        }
+        else
+        {
+            $cmd='bash '.escapeshellarg($script);
+            foreach($args as $arg)
+            {
+                $cmd.=' '.escapeshellarg($arg);
+            }
+        }
+        if(!function_exists('passthru'))
+        {
+            echo "passthru 被禁用，请手动执行：$cmd\r\n";
+            return;
+        }
+        passthru($cmd,$code);
+        if($code!==0)
+        {
+            echo "[警告] 站点登记未完成（退出码 {$code}），请按上面的输出处理；项目代码已创建好，不受影响。\r\n";
+        }
+    }
 }

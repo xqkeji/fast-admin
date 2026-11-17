@@ -88,6 +88,7 @@ composer create-project xqkeji/fast-admin app1
 
 执行该命令会自动下载fast-admin项目代码，并要求配置数据库信息，并自动安装xq-app-admin模块。
 **【app1为项目名称，可以根据实际情况修改。】**
+项目名同时就是本地域名 `app1.xqkeji.dev`：创建结束时会自动生成 nginx 虚拟主机、写 hosts 并重载 nginx（在容器里创建时需回到宿主机补一条命令，详见下一节）。
 项目创建完成后，可以进入项目目录，继续安装其他模块。
 例如：
 ``` shell
@@ -103,21 +104,49 @@ exit
 退出xqkeji容器。
 
 ## 配置nginx虚拟主机
-### 1、添加一个本地的域名解析
+
+### 自动登记（dnmmp / wnmmp）
+
+`composer create-project` 结束时会自动登记本地站点：从项目目录向上最多找 4 级环境目录，找到 wnmmp 的 `bin\add-site.bat`、dnmmp 的 `win.bat`（Windows）或 `add-site.sh`（Linux / macOS）就执行，由环境脚本完成三件事：
+
+1. 生成 `etc/nginx/conf.d/<项目名>.conf`：443 ssl、`server_name <项目名>.xqkeji.dev`、root 指向项目的 `www` 目录、PHP 转发按环境写好（dnmmp 为 `172.0.0.10:9000`，wnmmp 为 `php_processes`），并带上 `asset/`、`upload/` 目录禁止执行 PHP 的规则。
+2. 在宿主机 hosts 追加 `127.0.0.1 <项目名>.xqkeji.dev`。Windows 写 hosts 需要管理员权限，脚本会自动弹一次 UAC。
+3. `nginx -t` 自检通过后重载 nginx（dnmmp 用 `docker exec nginx nginx -s reload`，wnmmp 用 `nginx -s reload`），不必重启整个环境。
+
+**幂等**：配置文件已存在、或该域名已被 `conf.d` 里其它配置使用，就不再生成；hosts 里已有该域名（大小写不同、或与其它域名写在同一行都算已有）就不再追加。`nginx -t` 不通过时脚本会删掉刚生成的配置再报错，原有站点不受影响。
+
+**在容器里创建项目时不会自动登记**：php 容器只挂载了 `www`，看不到环境根目录，找不到脚本就只打印提示，不影响项目创建。这时在宿主机上补一条命令即可（`app1` 换成项目名，路径换成项目目录）：
+
+``` shell
+# dnmmp（Linux / macOS）
+./add-site.sh app1 "/path/to/dnmmp/www/app1"
+# dnmmp（Windows）
+win.bat site app1 "D:\dnmmp\www\app1"
+# wnmmp（Windows）
+bin\add-site.bat app1 "D:\wnmmp\www\default\app1"
+```
+
+登记完成后浏览器访问 https://app1.xqkeji.dev/admin 即可进入管理后台，http 地址会被 301 跳到 https。
+https://app1.xqkeji.dev/ 默认也是后台主页，要修改或取消该路由请改 `app/example/config/router.php`。
+证书由环境的 `ssl.sh` / `bin\make-ssl.bat` 签发，已覆盖 `*.xqkeji.dev`，新站点无需重签；还没签过证书时脚本会提示先签，否则 nginx 起不来。
+
+### 手工配置（不使用 dnmmp / wnmmp 时）
+
+#### 1、添加一个本地的域名解析
 在window操作系统下，打开C:\Windows\System32\drivers\etc\hosts文件，在文件底部增加一行内容：
 ``` shell
-127.0.0.1 app1.xqkeji.cn
+127.0.0.1 app1.xqkeji.dev
 ```
 作用是在你的本地电脑添加一个域名解析，后面我们可以通过这个域名访问上面创建的项目。
 
 Linux 服务器请直接配置 DNS 解析或同样修改 hosts。
 
-### 2、添加一个nginx虚拟主机
-在nginx的配置目录（dnmmp 为 `etc/nginx/conf.d/`，wnmmp 为 `etc\nginx\conf.d\`）增加一个app1.conf的虚拟主机配置文件，内容如下：
+#### 2、添加一个nginx虚拟主机
+在nginx的配置目录增加一个app1.conf的虚拟主机配置文件，内容如下：
 ``` shell
 server {
 	listen       80;
-	server_name  app1.xqkeji.cn;
+	server_name  app1.xqkeji.dev;
 	error_log  /home/log/app1.log;
 	root    "/home/www/app1/www";
 	location / {
@@ -137,17 +166,17 @@ server {
 	}
 }
 ```
-**【root 指向项目的 www 目录】** 容器方式为 `/home/www/app1/www`；wnmmp 改为实际的 Windows 路径，例如 `D:/wnmmp/www/default/app1/www`，并把 `fastcgi_pass` 指向本机的 php-cgi 地址（一般为 `127.0.0.1:9000`），最终请以 `etc\nginx\nginx.conf` 中默认站点的写法为准。
+**【root 指向项目的 www 目录】** 上例是容器方式的 `/home/www/app1/www`；自己装的 nginx 改为实际路径，并把 `fastcgi_pass` 指向本机 php-fpm 或 php-cgi 的地址（一般为 `127.0.0.1:9000`）。要上 https 就照 dnmmp / wnmmp 里 `conf.d` 的现成写法加 `listen 443 ssl` 与证书行。
 
-### 3、重启nginx服务
+#### 3、重启nginx服务
 容器环境：
 ``` shell
 sudo docker restart nginx
 ```
-wnmmp：先执行 `stop.bat` 停止服务，再执行 `start.bat` 启动。
+自己装的 nginx：`nginx -t` 通过后 `nginx -s reload`。
 
-重启后，就可以通过浏览器输入地址：http://app1.xqkeji.cn/admin就可以访问到该管理后台了。
-同时http://app1.xqkeji.cn/默认访问管理后台的主页面，如果要修改或取消该路由，请修改app/example/config/router.php的路由配置。
+重启后，就可以通过浏览器输入地址：http://app1.xqkeji.dev/admin 就可以访问到该管理后台了。
+同时http://app1.xqkeji.dev/默认访问管理后台的主页面，如果要修改或取消该路由，请修改app/example/config/router.php的路由配置。
 
 ## 许可协议（双重授权）
 
